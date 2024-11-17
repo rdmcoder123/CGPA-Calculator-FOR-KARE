@@ -35,7 +35,7 @@ def calculate_cgpa(
     return total_grade / total_credit
 
 
-st.title("CGPA Calculator")
+st.title("CGPA Calculator for KARE Students")
 
 st.markdown(
     "This is a simple CGPA calculator that calculates your CGPA based on your grades and credits"
@@ -95,4 +95,4 @@ if st.button("Calculate"):
     )
 
 
-st.markdown("Made with ❤️ by [YOUR RDMCODER]ONLY FOR KARE Students (https://github.com/rdmcoder123)")
+st.markdown("Made with ❤️ by [YOUR RDMCODER] ONLY FOR KARE Students (https://github.com/rdmcoder123)")
