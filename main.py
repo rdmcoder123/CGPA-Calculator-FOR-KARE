@@ -95,4 +95,4 @@ if st.button("Calculate"):
     )
 
 
-st.markdown("Made with ❤️ by [YOUR RDMCODER] ONLY FOR KARE Students (https://github.com/rdmcoder123)")
+st.markdown("Made with ❤️ by [RDMCODER] ONLY FOR KARE Students (https://github.com/rdmcoder123)")
