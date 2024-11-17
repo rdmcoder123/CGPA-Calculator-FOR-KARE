@@ -69,7 +69,7 @@ number_of_subjects = st.number_input(
 grade = [grades[0]] * number_of_subjects
 credit = [0.0] * number_of_subjects
 for i in range(number_of_subjects):
-    st.subheader(f"Subject #{i+1}")
+    st.subheader(f"Subject ⍈ {i+1}")
     cols = st.columns(2)
     grade[i] = cols[0].selectbox(
             label=f"Grade",
