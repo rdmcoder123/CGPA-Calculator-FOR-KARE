@@ -46,12 +46,12 @@ Install Dependencies
 Install the required Python dependencies using pip:
 
 
-Copy
+
 pip install -r requirements.txt
 Run the Application
 Run the Streamlit app with the following command:
 
-bash
+
 
 streamlit run app.py
 After this, the application will be available at http://localhost:8501.
@@ -59,15 +59,14 @@ After this, the application will be available at http://localhost:8501.
 Folder Structure
 Here is an overview of the folder structure in the project:
 
-bash
+
 
 CGPA-Calculator/
 │
 ├── app.py              # The main Streamlit app that runs the calculator
 ├── requirements.txt    # List of dependencies to install
 └── README.md           # This file
-License
-This project is licensed under the MIT License. See the LICENSE file for more details.
+
 
 Acknowledgments
 Streamlit: For providing a simple way to create web apps using Python.
