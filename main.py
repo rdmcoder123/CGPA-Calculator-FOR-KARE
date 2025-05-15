@@ -2,31 +2,24 @@ import streamlit as st
 import streamlit.components.v1 as components
 import time
 
-# Page configuration
+# Page Configuration
 st.set_page_config(
     page_title="CGPA Calculator for KARE Students",
     page_icon="👑",
     layout="centered",
     initial_sidebar_state="auto",
-    menu_items={
-        "Get Help": "https://github.com/rdmcoder123",
-        "Report a bug": "https://github.com/rdmcoder123",
-        "About": None,
-    },
 )
 
-# Initialize session state
+# Session State Initialization
 if "ad_verified" not in st.session_state:
     st.session_state.ad_verified = False
-if "show_spinner" not in st.session_state:
-    st.session_state.show_spinner = False
-if "timer_start" not in st.session_state:
-    st.session_state.timer_start = 0.0
+if "button_clicked_time" not in st.session_state:
+    st.session_state.button_clicked_time = None
 
-# Show ad gate
+# Show Ad Prompt
 if not st.session_state.ad_verified:
     st.title("👑 CGPA Calculator for KARE Students")
-    st.markdown("Click the ad below and wait **3 seconds** to continue...")
+    st.markdown("Please click the ad below and wait **3 seconds** to access the calculator.")
 
     components.html(
         """
@@ -47,25 +40,21 @@ if not st.session_state.ad_verified:
     )
 
     if st.button("✅ I Clicked the Ad"):
-        st.session_state.timer_start = time.time()
-        st.session_state.show_spinner = True
-        st.experimental_rerun()
+        st.session_state.button_clicked_time = time.time()
 
-# Spinner check
-if st.session_state.get("show_spinner", False):
-    if time.time() - st.session_state.timer_start >= 3:
-        st.session_state.ad_verified = True
-        st.session_state.show_spinner = False
-        st.experimental_rerun()
-    else:
-        with st.spinner("Verifying your click... Please wait 3 seconds"):
-            time.sleep(3 - (time.time() - st.session_state.timer_start))
-        st.session_state.ad_verified = True
-        st.session_state.show_spinner = False
-        st.experimental_rerun()
+    # Check if 3 seconds have passed
+    if st.session_state.button_clicked_time:
+        elapsed = time.time() - st.session_state.button_clicked_time
+        if elapsed >= 3:
+            st.session_state.ad_verified = True
+        else:
+            with st.spinner(f"Verifying... Please wait {int(3 - elapsed)} more second(s)"):
+                time.sleep(3 - elapsed)
+            st.session_state.ad_verified = True
 
-# ------------------- CGPA Calculator -------------------
+# If ad is verified, show calculator
 if st.session_state.ad_verified:
+
     grade_to_point = {
         "S": 10,
         "A": 9,
