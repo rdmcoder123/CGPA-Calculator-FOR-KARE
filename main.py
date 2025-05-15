@@ -15,15 +15,14 @@ st.set_page_config(
     },
 )
 
-# Simulated Ad Click
-if "ad_clicked" not in st.session_state:
-    st.session_state.ad_clicked = False
+# Simulated Ad Click Gate
+if "ad_verified" not in st.session_state:
+    st.session_state.ad_verified = False
 
-if not st.session_state.ad_clicked:
+if not st.session_state.ad_verified:
     st.title("👑 CGPA Calculator for KARE Students")
-    st.markdown("Please click the ad below and wait **3 seconds** to continue...")
+    st.markdown("Click the ad below and wait **3 seconds** to continue...")
 
-    # Adsterra ad HTML block
     components.html(
         """
         <div style="text-align:center;">
@@ -42,17 +41,19 @@ if not st.session_state.ad_clicked:
         height=300,
     )
 
-    # Simulated "click" button
-    if st.button("I Clicked the Ad"):
-        with st.spinner("Verifying your click..."):
-            time.sleep(3)
-        st.session_state.ad_clicked = True
-        st.experimental_rerun()
+    if st.button("✅ I Clicked the Ad"):
+        st.session_state.show_spinner = True
+        st.rerun()
 
-    st.stop()  # Stop the rest of the app from loading
+# After clicking the ad and rerun
+if st.session_state.get("show_spinner", False):
+    with st.spinner("Verifying your click... Please wait 3 seconds"):
+        time.sleep(3)
+    st.session_state.ad_verified = True
+    st.session_state.show_spinner = False
+    st.rerun()
 
-# ---- CGPA Calculator Logic Below ----
-
+# ---- CGPA Calculator Section ----
 grade_to_point = {
     "S": 10,
     "A": 9,
@@ -73,12 +74,11 @@ def calculate_cgpa(
     total_grade = sum(grade_point * credit for grade_point, credit in zip(grade_points, credits)) + (previous_cgpa * previous_credit)
     return total_grade / total_credit
 
-st.title("CGPA Calculator for KARE Students")
+st.title("🎓 CGPA Calculator for KARE Students")
 
 st.markdown(
     "This is a simple CGPA calculator that calculates your CGPA based on your grades and credits"
 )
-
 st.latex(r"CGPA = \frac{\sum_{i=1}^{n} (grade_i * credit_i)}{\sum_{i=1}^{n} credit_i}")
 
 cols = st.columns(2)
@@ -107,6 +107,7 @@ number_of_subjects = st.number_input(
 
 grade = [grades[0]] * number_of_subjects
 credit = [0.0] * number_of_subjects
+
 for i in range(number_of_subjects):
     st.subheader(f"Subject → {i+1}")
     cols = st.columns(2)
@@ -128,9 +129,9 @@ for i in range(number_of_subjects):
 
 if st.button("Calculate"):
     grade_points = [grade_to_point[x] for x in grade]
-    st.info(f"Your semester GPA is {calculate_cgpa(grade_points, credit):.2f}")
+    st.info(f"📊 Your Semester GPA is **{calculate_cgpa(grade_points, credit):.2f}**")
     st.success(
-        f"Your Cumulative GPA is {calculate_cgpa(grade_points, credit, previous_cgpa, previous_credit):.2f}"
+        f"🎯 Your Cumulative GPA is **{calculate_cgpa(grade_points, credit, previous_cgpa, previous_credit):.2f}**"
     )
 
 st.markdown("Made with ❤️ by [RDMCODER](https://github.com/rdmcoder123) — ONLY FOR KARE Students")
